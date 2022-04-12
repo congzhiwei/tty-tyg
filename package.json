@@ -1,0 +1,25 @@
+{
+  "name": "tiantongyuan",
+  "version": "1.0.0",
+  "description": "天通苑体育馆",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./index.js",
+    "commit": "node ./commit.js"
+  },
+  "keywords": [],
+  "author": "zwcong",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "axios": "^0.26.1",
+    "iconv-lite": "^0.6.3",
+    "jsdom": "^19.0.0",
+    "moment": "^2.29.1",
+    "node-schedule": "^2.1.0",
+    "nodemailer": "^6.7.2",
+    "request": "^2.88.2",
+    "url": "^0.11.0",
+    "zlib": "^1.0.5"
+  }
+}
