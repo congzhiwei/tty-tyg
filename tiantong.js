@@ -124,7 +124,7 @@ function getEffectiveSit(date, start = 20, end = 44, len = 2) {
         
         
         const newArr = setGroup(arr, 'venueName')
-        const commitArr = []
+        let commitArr = []
         
         // 格式化数据结构
         newArr.forEach((item)=>{
@@ -148,6 +148,9 @@ function getEffectiveSit(date, start = 20, end = 44, len = 2) {
 
 
         console.log('msg', msg, newArr, commitArr)
+
+        // 倒序，先抢大号的场地
+        commitArr = commitArr.reverse()
 
         commit(commitArr, JSESSIONID)
         
