@@ -3,20 +3,25 @@
  * @Autor: zwcong
  * @Date: 2022-03-22 16:05:13
  * @LastEditors: zwcong
- * @LastEditTime: 2022-04-12 08:03:33
+ * @LastEditTime: 2022-04-14 10:29:18
  */
 
 const request = require("request");
 const axios = require("axios");
+const config = require('./config.json')
 
+const JSESSIONID = config.JSESSIONID;
 const url = 'https://webssl.xports.cn/aisports-weixin/court/commit'
 
 let count = 0
 
-function commit(data, JSESSIONID){
-  // data = data.splice(0, 1)
+/**
+ * 循环执行提交订单
+ * @param {*} data 
+ */
+function commit(data){
   data.forEach(async (item)=>{
-    if(count <= 2){
+    if(count <= 3){
       let msg = ''
       try{
         const res = await submit(item, JSESSIONID)
@@ -26,15 +31,18 @@ function commit(data, JSESSIONID){
       }catch(err){
         console.log(`未抢到${item.date}, ${err}`)
       }
-      // sendWebhook(msg)
+      msg && sendWebhook(msg)
     }else{
       console.log('抢太多场地了，给别人留点吧')
     }
   })
-
-  
 }
-function submit(item, JSESSIONID){
+/**
+ * 提交订单
+ * @param {*} item 
+ * @returns 
+ */
+function submit(item){
   return new Promise((resolve,reject)=>{
     request({
       url: url,

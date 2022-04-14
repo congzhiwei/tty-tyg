@@ -1,17 +1,12 @@
-//凌风云登录
-const http = require("http");
-const https = require("https");
 const request = require("request");
-const axios = require("axios");
 const moment = require('moment');
 const jsdom = require("jsdom");
-const URI = require("url");
-const JSDOM = jsdom.JSDOM;
-const emailSender = require("./nodemailer.js")
 const commit = require('./commit.js')
+const config = require('./config.json')
 
-const JSESSIONID = "91AAB87C876F4F2063DEDEE4D98B2F42";
+const JSESSIONID = config.JSESSIONID;
 const dateFormat = 'YYYYMMDD';
+const JSDOM = jsdom.JSDOM;
 
 
 /**
@@ -57,7 +52,7 @@ const url = function (date) {
     // return "https://webssl.xports.cn/aisports-weixin/court";
 }
 
-function tiantong_place(jsessionid, url, callback) {
+function tiantong_place(url, callback) {
     request({
         url: url,
         method: "GET",
@@ -68,7 +63,7 @@ function tiantong_place(jsessionid, url, callback) {
             "Accept-Encoding": "gzip, deflate, br",
             "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
             "Connection": "keep-alive",
-            "Cookie": "JSESSIONID=" + jsessionid,
+            "Cookie": "JSESSIONID=" + JSESSIONID,
             "dnt": "1",
             "Host": "webssl.xports.cn",
             "sec-ch-ua-mobile": "?0",
@@ -89,7 +84,7 @@ function tiantong_place(jsessionid, url, callback) {
 function getEffectiveSit(date, start = 20, end = 44, len = 2) {
     let arr = [];
     let arrIndex = 0;
-    tiantong_place(JSESSIONID, url(date), (body) => {
+    tiantong_place(url(date), (body) => {
         const document = new JSDOM(body).window.document;
         if(document.title === '失败'){
             console.log('cookie 过期')
@@ -116,12 +111,6 @@ function getEffectiveSit(date, start = 20, end = 44, len = 2) {
                 }
             }
         }
-        let msg = "";
-        for (let i = 0; i < arr.length; i++) {
-            msg += moment(arr[i].date).locale('zh-cn').format('YYYY年MM月DD日, dddd') + "-" + arr[i].venueName + "-" + arr[i].startTimeNum / 2 + "点" + "\n";
-        }
-
-        
         
         const newArr = setGroup(arr, 'venueName')
         let commitArr = []
@@ -147,27 +136,12 @@ function getEffectiveSit(date, start = 20, end = 44, len = 2) {
         })
 
 
-        console.log('msg', msg, newArr, commitArr)
+        console.log('msg', newArr, commitArr)
 
         // 倒序，先抢大号的场地
         commitArr = commitArr.reverse()
 
-        commit(commitArr, JSESSIONID)
-        
-        // let log = ''
-        // if(arr.length){
-        //     log = `提醒: 恭喜恭喜，已经, 有${arr.length}个空场地了，${msg}`
-        //     sendWebhook(log)
-        // }else{
-        //     log = `提醒: 抱歉${moment(date).locale('zh-cn').format('YYYY年MM月DD日, dddd')}，暂无空场地`
-        // }
-
-        // console.log(log)
-        
-        // if (arr.length !== 0) {
-        //     let sendMailInfo = emailSender.getSendMailInfo("354115516@qq.com", "周末羽毛球有场地了！快去抢啊！", msg);
-        //     emailSender.sendMail(sendMailInfo)
-        // }
+        commit(commitArr)
     });
 }
 /**
