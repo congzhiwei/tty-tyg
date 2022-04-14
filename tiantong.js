@@ -1,13 +1,14 @@
-const request = require("request");
-const moment = require('moment');
-const jsdom = require("jsdom");
+const request = require("request")
+const moment = require('moment')
+const jsdom = require("jsdom")
 const commit = require('./commit.js')
+const setLog = require('./log.js')
 const config = require('./config.json')
 
-const JSESSIONID = config.JSESSIONID;
-const dateFormat = 'YYYYMMDD';
-const JSDOM = jsdom.JSDOM;
 
+const JSESSIONID = config.JSESSIONID
+const dateFormat = 'YYYYMMDD'
+const JSDOM = jsdom.JSDOM
 
 /**
  * 计算今天是本周第几天
@@ -113,6 +114,9 @@ function getEffectiveSit(date, start = 20, end = 44, len = 2) {
         }
         
         const newArr = setGroup(arr, 'venueName')
+
+        setLog(newArr)
+
         let commitArr = []
         
         // 格式化数据结构

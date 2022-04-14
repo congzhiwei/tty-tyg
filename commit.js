@@ -3,12 +3,13 @@
  * @Autor: zwcong
  * @Date: 2022-03-22 16:05:13
  * @LastEditors: zwcong
- * @LastEditTime: 2022-04-14 10:29:18
+ * @LastEditTime: 2022-04-14 11:04:48
  */
 
 const request = require("request");
 const axios = require("axios");
 const config = require('./config.json')
+const setLog = require('./log.js')
 
 const JSESSIONID = config.JSESSIONID;
 const url = 'https://webssl.xports.cn/aisports-weixin/court/commit'
@@ -31,6 +32,7 @@ function commit(data){
       }catch(err){
         console.log(`未抢到${item.date}, ${err}`)
       }
+      msg && setLog(msg)
       msg && sendWebhook(msg)
     }else{
       console.log('抢太多场地了，给别人留点吧')
@@ -69,12 +71,12 @@ function submit(item){
           "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36 Edg/97.0.1072.55",
       }
   }, (error, response, body) => {
-      console.log('error', error)
-      console.log('body', body)
+      error && setLog(error)
       const res = JSON.parse(body)
       if(res && res.error === 0){
         resolve(res)
       }else{
+        setLog(res.message)
         reject(res.message)
       }
     })
