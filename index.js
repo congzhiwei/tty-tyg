@@ -33,7 +33,7 @@ function noticeStart() {
 
     // tiantong.getEffectiveSit(tiantong.getThisSunday(), 28, 34);  // 周日
     // tiantong.getEffectiveSit(tiantong.getThisFriday(), 40, 44);  // 周五
-    tiantong.getEffectiveSit('20220417', 28, 40, 1);
+    tiantong.getEffectiveSit('20220417', 28, 40);
 }
 
 // 启动函数
