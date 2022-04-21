@@ -3,7 +3,7 @@
  * @Autor: zwcong
  * @Date: 2022-03-21 15:46:58
  * @LastEditors: zwcong
- * @LastEditTime: 2022-04-21 17:59:39
+ * @LastEditTime: 2022-04-21 19:01:27
  */
 const schedule = require('node-schedule')
 const tiantong = require('./tiantong.js')
@@ -28,8 +28,6 @@ class Task {
      */
     run() {
         console.log('已开启定时任务！')
-
-        console.log('this', this)
 
         // 每隔10分钟抓取
         // schedule.scheduleJob('0 */10 * * * ?', () => {
@@ -57,7 +55,6 @@ class Task {
      * 结束任务
      */
     end(){
-      console.log('this.job22', job)
       job && job.cancel()
     }
     test(){
