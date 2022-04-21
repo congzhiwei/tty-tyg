@@ -3,7 +3,7 @@
  * @Autor: zwcong
  * @Date: 2022-03-21 15:46:58
  * @LastEditors: zwcong
- * @LastEditTime: 2022-04-14 11:04:24
+ * @LastEditTime: 2022-04-21 16:47:23
  */
 const schedule = require('node-schedule');
 const tiantong = require('./tiantong.js')
@@ -13,14 +13,14 @@ function remindTimer() {
     noticeStart()
 
     // 每隔10分钟抓取
-    schedule.scheduleJob('0 */10 * * * ?', () => {
-        noticeStart()
-    })
-
-    // 每隔1秒抓取
-    // schedule.scheduleJob('*/1 * * * * *', () => {
+    // schedule.scheduleJob('0 */10 * * * ?', () => {
     //     noticeStart()
     // })
+
+    // 每隔1秒抓取
+    schedule.scheduleJob('*/15 * * * * *', () => {
+        noticeStart()
+    })
     
 
     console.log('已开启定时任务！')
@@ -33,7 +33,7 @@ function noticeStart() {
 
     // tiantong.getEffectiveSit(tiantong.getThisSunday(), 28, 34);  // 周日
     // tiantong.getEffectiveSit(tiantong.getThisFriday(), 40, 44);  // 周五
-    tiantong.getEffectiveSit('20220417', 28, 40);
+    tiantong.getEffectiveSit('20220425', 34, 35, 1);
 }
 
 // 启动函数

@@ -3,7 +3,7 @@
  * @Autor: zwcong
  * @Date: 2022-03-22 16:05:13
  * @LastEditors: zwcong
- * @LastEditTime: 2022-04-14 11:04:48
+ * @LastEditTime: 2022-04-21 15:30:07
  */
 
 const request = require("request");
@@ -20,15 +20,17 @@ let count = 0
  * 循环执行提交订单
  * @param {*} data 
  */
-function commit(data){
-  data.forEach(async (item)=>{
+async function commit(data){
+  for(const item of data){
     if(count <= 3){
       let msg = ''
       try{
         const res = await submit(item, JSESSIONID)
-        msg = `提醒：恭喜恭喜，您抢到了${res.trade.tradeDesc}`
-        count ++
-        console.log(msg)
+        if(res){
+          msg = `提醒：恭喜恭喜，您抢到了${res.trade.tradeDesc}`
+          count ++
+          console.log(msg)
+        }
       }catch(err){
         console.log(`未抢到${item.date}, ${err}`)
       }
@@ -37,7 +39,7 @@ function commit(data){
     }else{
       console.log('抢太多场地了，给别人留点吧')
     }
-  })
+  }
 }
 /**
  * 提交订单
