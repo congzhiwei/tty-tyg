@@ -57,9 +57,6 @@ class Task {
     end(){
       job && job.cancel()
     }
-    test(){
-      console.log('====')
-    }
 }
 module.exports = Task
 
