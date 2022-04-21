@@ -1,51 +1,11 @@
 const request = require("request")
-const moment = require('moment')
 const jsdom = require("jsdom")
-const commit = require('./commit.js')
 const setLog = require('./log.js')
 const config = require('./config.json')
 
 
 const JSESSIONID = config.JSESSIONID
-const dateFormat = 'YYYYMMDD'
 const JSDOM = jsdom.JSDOM
-
-/**
- * 计算今天是本周第几天
- */
-const getTodayNumber = function () {
-    //计算今天是这周第几天
-    return moment().format('E');
-}
-
-/**
- * 获取本周六的日期
- * @returns {string}
- */
-const getThisSaturday = function () {
-    let today = getTodayNumber();
-    //周六日期
-    return moment().add(6 - today, 'days').locale('zh-cn').format(dateFormat);
-};
-
-/**
- * 获取本周日的日期
- * @returns {string}
- */
-const getThisSunday = function () {
-    let today = getTodayNumber();
-    //周日日期
-    return moment().add(7 - today, 'days').locale('zh-cn').format(dateFormat);
-}
-/**
- * 获取本周五的日期
- * @returns {string}
- */
- const getThisFriday = function () {
-    let today = getTodayNumber();
-    //周五日期
-    return moment().add(5 - today, 'days').locale('zh-cn').format(dateFormat);
-}
 
 
 const url = function (date) {
@@ -140,12 +100,14 @@ function getEffectiveSit(date, start = 20, end = 44, len = 2) {
         })
 
 
-        console.log('msg', newArr, commitArr)
+        // console.log('msg', newArr, commitArr)
 
         // 倒序，先抢大号的场地
         commitArr = commitArr.reverse()
-
-        commit(commitArr)
+        
+        const Commit = require('./commit.js')
+        const commit = new Commit()
+        commit.run(commitArr)
     });
 }
 /**
@@ -177,4 +139,4 @@ function setGroup(arr, key){
     return dest
 }
 
-module.exports = {getEffectiveSit, getThisSaturday, getThisSunday, getThisFriday}
+module.exports = {getEffectiveSit}
