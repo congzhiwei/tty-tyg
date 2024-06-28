@@ -10,7 +10,9 @@
   "keywords": [],
   "author": "zwcong",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "crypto": "^1.0.1"
+  },
   "devDependencies": {
     "axios": "^0.26.1",
     "iconv-lite": "^0.6.3",
